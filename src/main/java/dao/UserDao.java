@@ -11,13 +11,13 @@ import javax.persistence.Query;
 import dto.User;
 
 public class UserDao {
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
+	
+	EntityManager em = emf.createEntityManager();
+	
+	EntityTransaction et = em.getTransaction();
 	
 	public void saveAndUpdateUser(User user) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
-		
-		EntityManager em = emf.createEntityManager();
-		
-		EntityTransaction et = em.getTransaction();
 		
 		et.begin();
 		em.merge(user);
@@ -26,20 +26,20 @@ public class UserDao {
 		
 	}
 	
-	public void fetchUserById(int id){
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
-		
-		EntityManager em = emf.createEntityManager();
-		
-		User user = em.find(User.class, id);
+	public User fetchUserById(int id){
+			
+	 return em.find(User.class, id);
 		
 	}
+	   public User fetchUserByEmailAndPassword(String email, String password) {
+	        Query query = em.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password");
+	        query.setParameter("email", email);
+	        query.setParameter("password", password);
+	        return (User) query.getSingleResult();
+	    }
 	
 	public List<User> fetchAllUser(){
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
-		
-		EntityManager em = emf.createEntityManager();
-		
+				
 		Query query = em.createQuery("select users from user users");
 		
 		List<User> users=query.getResultList();

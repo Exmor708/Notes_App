@@ -10,19 +10,18 @@ import javax.persistence.Query;
 import dto.Notes;
 
 public class NoteDao {
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
+	
+	EntityManager em = emf.createEntityManager();
+	
 	public void fetchNotesById(int id){
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
-		
-		EntityManager em = emf.createEntityManager();
 		
 		Notes note = em.find(Notes.class, id);
 		
 	}
 	
 	public List<Notes> fetchAllUser(){
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("biswajit");
 		
-		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("select users from user users");
 		
